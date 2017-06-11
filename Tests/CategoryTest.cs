@@ -79,9 +79,9 @@ namespace ToDo
       Category testCategory = new Category("Cleaning");
       testCategory.Save();
 
-      Task firstTask = new Task("Take out the trash", testCategory.GetId(), "1/2/17");
+      Task firstTask = new Task("Take out the trash", testCategory.GetId());
       firstTask.Save();
-      Task secondTask = new Task("Mop the floor", testCategory.GetId(), "1/2/17");
+      Task secondTask = new Task("Mop the floor", testCategory.GetId());
       secondTask.Save();
 
       List<Task> testTaskList = new List<Task>{firstTask, secondTask};
@@ -117,9 +117,9 @@ namespace ToDo
       Category testCategory2 = new Category(name2);
       testCategory2.Save();
 
-      Task testTask1 = new Task("mow the lawn", testCategory1.GetId(), "1/2/17");
+      Task testTask1 = new Task("mow the lawn", testCategory1.GetId());
       testTask1.Save();
-      Task testTask2 = new Task("wash the dishes", testCategory2.GetId(), "1/2/17");
+      Task testTask2 = new Task("wash the dishes", testCategory2.GetId());
       testTask2.Save();
 
       testCategory1.Delete();

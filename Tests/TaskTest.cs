@@ -27,8 +27,8 @@ namespace ToDo
     public void Test_Equal_ReturnsTrueIfDescriptionsAreTheSame()
     {
       //Arrange, Act
-      Task firstTask = new Task("Mow the lawn", 1, "1/2/17");
-      Task secondTask = new Task("Mow the lawn", 1, "1/2/17");
+      Task firstTask = new Task("Mow the lawn", 1);
+      Task secondTask = new Task("Mow the lawn", 1);
 
       //Assert
       Assert.Equal(firstTask, secondTask);
@@ -38,7 +38,7 @@ namespace ToDo
     public void Test_Save_SavesToDatabase()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", 1, "1/2/17");
+      Task testTask = new Task("Mow the lawn", 1);
 
       //Act
       testTask.Save();
@@ -69,7 +69,7 @@ namespace ToDo
     [Fact]
     public void Test_Find_FindsTaskInDatabase()
     {
-      Task testTask = new Task("Do the dishes", 1, "1/2/17");
+      Task testTask = new Task("Do the dishes", 1);
       testTask.Save();
 
       Task foundTask = Task.Find(testTask.GetId());
