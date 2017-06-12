@@ -28,8 +28,8 @@ namespace ToDoList
     public void Equals_TrueForSameDescription_Task()
     {
       //Arrange, Act
-      Task firstTask = new Task("Mow the lawn", "1/1/17");
-      Task secondTask = new Task("Mow the lawn", "1/1/17");
+      Task firstTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
+      Task secondTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
 
       //Assert
       Assert.Equal(firstTask, secondTask);
@@ -39,7 +39,7 @@ namespace ToDoList
     public void Save_TaskSavesToDatabase_TaskList()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", "1/1/17");
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
       testTask.Save();
 
       //Act
@@ -54,7 +54,7 @@ namespace ToDoList
     public void Save_AssignsIdToObject_id()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", "1/1/17");
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
       testTask.Save();
 
       //Act
@@ -71,7 +71,7 @@ namespace ToDoList
     public void Find_FindsTaskInDatabase_Task()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", "1/1/17");
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
       testTask.Save();
 
       //Act
@@ -85,7 +85,7 @@ namespace ToDoList
     public void AddCategory_AddsCategoryToTask_CategoryList()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", "1/1/17");
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
       testTask.Save();
 
       Category testCategory = new Category("Home stuff");
@@ -105,7 +105,7 @@ namespace ToDoList
     public void GetCategories_ReturnsAllTaskCategories_CategoryList()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", "1/1/17");
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
       testTask.Save();
 
       Category testCategory1 = new Category("Home stuff");
@@ -131,7 +131,7 @@ namespace ToDoList
       testCategory.Save();
 
       string testDescription = "Mow the lawn";
-      string testDueDate = "1/1/17";
+      DateTime testDueDate = new DateTime (2017, 1, 1);
       Task testTask = new Task(testDescription, testDueDate);
       testTask.Save();
 

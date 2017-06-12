@@ -8,9 +8,9 @@ namespace ToDoList
   {
     private int _id;
     private string _description;
-    private string _dueDate;
+    private DateTime _dueDate;
 
-    public Task(string Description, string DueDate, int Id = 0)
+    public Task(string Description, DateTime DueDate, int Id = 0)
     {
       _id = Id;
       _description = Description;
@@ -45,11 +45,11 @@ namespace ToDoList
     {
       _description = newDescription;
     }
-    public string GetDueDate()
+    public DateTime GetDueDate()
     {
       return _dueDate;
     }
-    public void SetDueDate(string newDueDate)
+    public void SetDueDate(DateTime newDueDate)
     {
       _dueDate = newDueDate;
     }
@@ -67,7 +67,7 @@ namespace ToDoList
       {
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
-        string taskDueDate = rdr.GetString(2);
+        DateTime taskDueDate = rdr.GetDateTime(2);
         Task newTask = new Task(taskDescription, taskDueDate, taskId);
         AllTasks.Add(newTask);
       }
@@ -220,13 +220,13 @@ namespace ToDoList
 
       int foundTaskId = 0;
       string foundTaskDescription = null;
-      string foundTaskDueDate = null;
+      DateTime foundTaskDueDate = default(DateTime);
 
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
-        foundTaskDueDate = rdr.GetString(2);
+        foundTaskDueDate = rdr.GetDateTime(2);
       }
       Task foundTask = new Task(foundTaskDescription, foundTaskDueDate, foundTaskId);
 
