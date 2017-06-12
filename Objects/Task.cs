@@ -27,7 +27,7 @@ namespace ToDoList
         Task newTask = (Task) otherTask;
         bool idEquality = this.GetId() == newTask.GetId();
         bool descriptionEquality = this.GetDescription() == newTask.GetDescription();
-        bool dueDateEquality = this.GetDueDate() == newDueDate.GetDueDate();
+        bool dueDateEquality = this.GetDueDate() == newTask.GetDueDate();
 
         return (idEquality && descriptionEquality && dueDateEquality);
       }
@@ -86,7 +86,7 @@ namespace ToDoList
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, dueDate) OUTPUT INSERTED.id VALUES (@TaskDescription, @dueDate)", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, dueDate) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskDueDate)", conn);
 
       SqlParameter descriptionParam = new SqlParameter();
       descriptionParam.ParameterName = "@TaskDescription";

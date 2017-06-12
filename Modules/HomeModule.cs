@@ -22,14 +22,14 @@ namespace ToDo
         List<Category> AllCategories = Category.GetAll();
         return View["categories.cshtml", AllCategories];
       };
-      
+
       //Create a new task
       Get["/tasks/new"] = _ => {
         return View["tasks_form.cshtml"];
       };
 
       Post["/tasks/new"] = _ => {
-        Task newTask = new Task(Request.Form["task-description"]);
+        Task newTask = new Task(Request.Form["task-description"], Request.Form["due-date"]);
         newTask.Save();
         return View["success.cshtml"];
       };
@@ -80,7 +80,6 @@ namespace ToDo
         category.AddTask(task);
         return View["success.cshtml"];
       };
-
 
     }
   }
