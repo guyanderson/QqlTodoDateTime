@@ -5,7 +5,7 @@ using Nancy;
 using Nancy.Owin;
 using Nancy.ViewEngines.Razor;
 
-namespace ToDo
+namespace ToDoList
 {
   public class Startup
   {

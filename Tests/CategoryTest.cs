@@ -4,8 +4,9 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ToDo
+namespace ToDoList
 {
+  [Collection("ToDoTests")]
   public class CategoryTest : IDisposable
   {
     public CategoryTest()
@@ -60,24 +61,6 @@ namespace ToDo
     }
 
     [Fact]
-    public void Test_GetTasks_RetrievesAllTasksWithCategory()
-    {
-      Category testCategory = new Category("Cleaning");
-      testCategory.Save();
-
-      Task firstTask = new Task("Take out the trash", testCategory.GetId());
-      firstTask.Save();
-      Task secondTask = new Task("Mop the floor", testCategory.GetId());
-      secondTask.Save();
-
-      List<Task> testTaskList = new List<Task>{firstTask, secondTask};
-      List<Task> resultTaskList = testCategory.GetTasks();
-
-      Assert.Equal(testTaskList, resultTaskList);
-
-    }
-
-    [Fact]
     public void Test_Update_UpdatesCategoryInDatabase()
     {
       string name = "Home stuff";
@@ -115,8 +98,9 @@ namespace ToDo
       //Assert
       Assert.Equal(testList, result);
     }
+
     [Fact]
-    public void Test_GetTasks_ReturnsAllCategoryTasks()
+    public void GetTasks_ReturnsAllCategoryTasks_TaskList()
     {
       //Arrange
       Category testCategory = new Category("Household chores");
@@ -156,7 +140,7 @@ namespace ToDo
     }
 
     [Fact]
-    public void Test_Delete_DeletesCategoryAssociationsFromDatabase()
+    public void Delete_DeletesCategoryAssociationsFromDatabase_CategoryList()
     {
       //Arrange
       Task testTask = new Task("Mow the lawn");

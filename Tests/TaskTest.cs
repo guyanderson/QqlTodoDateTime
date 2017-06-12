@@ -6,11 +6,12 @@ using System.Data.SqlClient;
 
 namespace ToDoList
 {
+  [Collection("ToDoTests")]
   public class TaskTest : IDisposable
   {
     public TaskTest()
     {
-      DBConfiguration.connectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo_test;Integrated Security=SSPI;";
+      DBConfiguration.ConnectionString = "Data Source=(localdb)\\mssqllocaldb;Initial Catalog=todo_test;Integrated Security=SSPI;";
     }
 
     [Fact]
@@ -78,6 +79,70 @@ namespace ToDoList
 
       //Assert
       Assert.Equal(testTask, result);
+    }
+
+    [Fact]
+    public void AddCategory_AddsCategoryToTask_CategoryList()
+    {
+      //Arrange
+      Task testTask = new Task("Mow the lawn");
+      testTask.Save();
+
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
+
+      //Act
+      testTask.AddCategory(testCategory);
+
+      List<Category> result = testTask.GetCategories();
+      List<Category> testList = new List<Category>{testCategory};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void GetCategories_ReturnsAllTaskCategories_CategoryList()
+    {
+      //Arrange
+      Task testTask = new Task("Mow the lawn");
+      testTask.Save();
+
+      Category testCategory1 = new Category("Home stuff");
+      testCategory1.Save();
+
+      Category testCategory2 = new Category("Work stuff");
+      testCategory2.Save();
+
+      //Act
+      testTask.AddCategory(testCategory1);
+      List<Category> result = testTask.GetCategories();
+      List<Category> testList = new List<Category> {testCategory1};
+
+      //Assert
+      Assert.Equal(testList, result);
+    }
+
+    [Fact]
+    public void Delete_DeletesTaskAssociationsFromDatabase_TaskList()
+    {
+      //Arrange
+      Category testCategory = new Category("Home stuff");
+      testCategory.Save();
+
+      string testDescription = "Mow the lawn";
+      Task testTask = new Task(testDescription);
+      testTask.Save();
+
+      //Act
+      testTask.AddCategory(testCategory);
+      testTask.Delete();
+
+      List<Task> resultCategoryTasks = testCategory.GetTasks();
+      List<Task> testCategoryTasks = new List<Task> {};
+
+      //Assert
+      Assert.Equal(testCategoryTasks, resultCategoryTasks);
     }
 
     public void Dispose()
