@@ -14,7 +14,7 @@ namespace ToDoList
       _id = Id;
       _name = Name;
     }
-
+//==============================================================================
     public override bool Equals(System.Object otherCategory)
     {
       if (!(otherCategory is Category))
@@ -29,19 +29,22 @@ namespace ToDoList
         return (idEquality && nameEquality);
       }
     }
-
+//==============================================================================
     public int GetId()
     {
       return _id;
     }
+//==============================================================================
     public string GetName()
     {
       return _name;
     }
+//==============================================================================
     public void SetName(string newName)
     {
       _name = newName;
     }
+//==============================================================================
     public static List<Category> GetAll()
     {
       List<Category> allCategories = new List<Category>{};
@@ -71,6 +74,7 @@ namespace ToDoList
 
       return allCategories;
     }
+//==============================================================================
     public void Save()
     {
       SqlConnection conn = DB.Connection();
@@ -97,6 +101,7 @@ namespace ToDoList
         conn.Close();
       }
     }
+//==============================================================================
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
@@ -138,7 +143,7 @@ namespace ToDoList
       }
       return foundCategory;
     }
-
+//==============================================================================
     public void AddTask(Task newTask)
     {
       SqlConnection conn = DB.Connection();
@@ -162,7 +167,7 @@ namespace ToDoList
         conn.Close();
       }
     }
-
+//==============================================================================
     public void Update(string newName)
     {
       SqlConnection conn = DB.Connection();
@@ -195,7 +200,7 @@ namespace ToDoList
         conn.Close();
       }
     }
-
+//=============================================================================
     public List<Task> GetTasks()
     {
       SqlConnection conn = DB.Connection();
@@ -235,7 +240,8 @@ namespace ToDoList
         {
               int thisTaskId = queryReader.GetInt32(0);
               string taskDescription = queryReader.GetString(1);
-              Task foundTask = new Task(taskDescription, thisTaskId);
+              string taskDueDate = queryReader.GetString(2)
+              Task foundTask = new Task(taskDescription, taskDueDate, thisTaskId);
               tasks.Add(foundTask);
         }
         if (queryReader != null)
@@ -249,7 +255,7 @@ namespace ToDoList
       }
       return tasks;
     }
-
+//==============================================================================
     public void Delete()
     {
       SqlConnection conn = DB.Connection();
