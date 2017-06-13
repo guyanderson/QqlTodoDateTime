@@ -235,18 +235,19 @@ namespace ToDoList
         taskIdParameter.Value = taskId;
         taskQuery.Parameters.Add(taskIdParameter);
 
-        SqlDataReader queryReader = taskQuery.ExecuteReader();
-        while(queryReader.Read())
+        SqlDataReader reader = taskQuery.ExecuteReader();
+        while(reader.Read())
         {
-          int thisTaskId = queryReader.GetInt32(0);
-          string taskDescription = queryReader.GetString(1);
-          DateTime taskDueDate = queryReader.GetDateTime(2);
-          Task foundTask = new Task(taskDescription, taskDueDate, thisTaskId);
+          int thisTaskId = reader.GetInt32(0);
+          string taskDescription = reader.GetString(1);
+          DateTime taskDueDate = reader.GetDateTime(2);
+          bool taskStatus = reader.GetStatus(3);
+          Task foundTask = new Task(taskDescription, taskDueDate, taskStatus, thisTaskId);
           tasks.Add(foundTask);
         }
-        if (queryReader != null)
+        if (reader != null)
         {
-          queryReader.Close();
+          reader.Close();
         }
       }
       if (conn != null)

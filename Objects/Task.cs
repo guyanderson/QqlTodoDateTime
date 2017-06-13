@@ -9,14 +9,16 @@ namespace ToDoList
     private int _id;
     private string _description;
     private DateTime _dueDate;
+    private bool _status;
 
-    public Task(string Description, DateTime DueDate, int Id = 0)
+    public Task(string Description, DateTime DueDate, bool Status, int Id = 0)
     {
       _id = Id;
       _description = Description;
       _dueDate = DueDate;
+      _status = Status;
     }
-
+//==============================================================================
     public override bool Equals(System.Object otherTask)
     {
       if (!(otherTask is Task))
@@ -28,31 +30,47 @@ namespace ToDoList
         bool idEquality = this.GetId() == newTask.GetId();
         bool descriptionEquality = this.GetDescription() == newTask.GetDescription();
         bool dueDateEquality = this.GetDueDate() == newTask.GetDueDate();
+        bool statusEquality = this.GetStatus() == newTask.GetStatus();
 
-        return (idEquality && descriptionEquality && dueDateEquality);
+        return (idEquality && descriptionEquality && dueDateEquality && statusEquality);
       }
     }
-
+//==============================================================================
     public int GetId()
     {
       return _id;
     }
+//==============================================================================
     public string GetDescription()
     {
       return _description;
     }
+//==============================================================================
     public void SetDescription(string newDescription)
     {
       _description = newDescription;
     }
+//==============================================================================
     public DateTime GetDueDate()
     {
       return _dueDate;
     }
+//==============================================================================
     public void SetDueDate(DateTime newDueDate)
     {
       _dueDate = newDueDate;
     }
+//==============================================================================
+    public bool GetStatus()
+    {
+      return _status;
+    }
+//==============================================================================
+    public void SetStatus(bool newStatus)
+    {
+      _status = newStatus;
+    }
+//==============================================================================
     public static List<Task> GetAll()
     {
       List<Task> AllTasks = new List<Task>{};
@@ -68,7 +86,8 @@ namespace ToDoList
         int taskId = rdr.GetInt32(0);
         string taskDescription = rdr.GetString(1);
         DateTime taskDueDate = rdr.GetDateTime(2);
-        Task newTask = new Task(taskDescription, taskDueDate, taskId);
+        bool taskStatus = rdr.GetStatus(3);
+        Task newTask = new Task(taskDescription, taskDueDate, taskStatus, taskId);
         AllTasks.Add(newTask);
       }
       if (rdr != null)
@@ -81,12 +100,13 @@ namespace ToDoList
       }
       return AllTasks;
     }
+//==============================================================================
     public void Save()
     {
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, due_date) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskDueDate)", conn);
+      SqlCommand cmd = new SqlCommand("INSERT INTO tasks (description, due_date, status) OUTPUT INSERTED.id VALUES (@TaskDescription, @TaskDueDate, @TaskStatus)", conn);
 
       SqlParameter descriptionParam = new SqlParameter();
       descriptionParam.ParameterName = "@TaskDescription";
@@ -96,8 +116,13 @@ namespace ToDoList
       dueDateParam.ParameterName = "@TaskDueDate";
       dueDateParam.Value = this.GetDueDate();
 
+      SqlParameter statusParam = new SqlParameter();
+      statusParam.ParameterName = "@TaskStatus";
+      statusParam.Value = this.GetStatus();
+
       cmd.Parameters.Add(descriptionParam);
       cmd.Parameters.Add(dueDateParam);
+      cmd.Parameters.Add(statusParam);
 
       SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -114,7 +139,7 @@ namespace ToDoList
         conn.Close();
       }
     }
-
+//==============================================================================
     public void AddCategory(Category newCategory)
     {
       SqlConnection conn = DB.Connection();
@@ -139,7 +164,7 @@ namespace ToDoList
         conn.Close();
       }
     }
-
+//==============================================================================
     public List<Category> GetCategories()
     {
       SqlConnection conn = DB.Connection();
@@ -196,7 +221,7 @@ namespace ToDoList
       }
       return categories;
     }
-
+//==============================================================================
     public static void DeleteAll()
     {
       SqlConnection conn = DB.Connection();
@@ -205,7 +230,7 @@ namespace ToDoList
       cmd.ExecuteNonQuery();
       conn.Close();
     }
-
+//==============================================================================
     public static Task Find(int id)
     {
       SqlConnection conn = DB.Connection();
@@ -221,14 +246,16 @@ namespace ToDoList
       int foundTaskId = 0;
       string foundTaskDescription = null;
       DateTime foundTaskDueDate = default(DateTime);
+      bool foundTaskStatus = false;
 
       while(rdr.Read())
       {
         foundTaskId = rdr.GetInt32(0);
         foundTaskDescription = rdr.GetString(1);
         foundTaskDueDate = rdr.GetDateTime(2);
+        foundTaskStatus = rdr.GetStatus(3);
       }
-      Task foundTask = new Task(foundTaskDescription, foundTaskDueDate, foundTaskId);
+      Task foundTask = new Task(foundTaskDescription, foundTaskDueDate, foundTaskStatus, foundTaskId);
 
       if (rdr != null)
       {
@@ -240,7 +267,7 @@ namespace ToDoList
       }
       return foundTask;
     }
-
+//==============================================================================
     public void Delete()
     {
       SqlConnection conn = DB.Connection();
@@ -259,5 +286,6 @@ namespace ToDoList
         conn.Close();
       }
     }
+//==============================================================================
   }
 }

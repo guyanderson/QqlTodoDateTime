@@ -87,10 +87,10 @@ Console.WriteLine(newName + "  NN5");
       Category testCategory = new Category("Household chores");
       testCategory.Save();
 
-      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1), false);
       testTask.Save();
 
-      Task testTask2 = new Task("Water the garden", new DateTime (2017, 1, 1));
+      Task testTask2 = new Task("Water the garden", new DateTime (2017, 1, 1), false);
       testTask2.Save();
 
       //Act
@@ -113,10 +113,10 @@ Console.WriteLine(testList[0].GetDescription()+"  TL6");
       Category testCategory = new Category("Household chores");
       testCategory.Save();
 
-      Task testTask1 = new Task("Mow the lawn", new DateTime (2017, 1, 1));
+      Task testTask1 = new Task("Mow the lawn", new DateTime (2017, 1, 1), false);
       testTask1.Save();
 
-      Task testTask2 = new Task("Buy plane ticket", new DateTime (2017, 1, 1));
+      Task testTask2 = new Task("Buy plane ticket", new DateTime (2017, 1, 1), false);
       testTask2.Save();
 
       //Act
@@ -151,7 +151,7 @@ Console.WriteLine(testList[0].GetDescription()+"  TL7");
     public void Delete_DeletesCategoryAssociationsFromDatabase_True()
     {
       //Arrange
-      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1));
+      Task testTask = new Task("Mow the lawn", new DateTime (2017, 1, 1), false);
       testTask.Save();
 
       string testName = "Home stuff";
